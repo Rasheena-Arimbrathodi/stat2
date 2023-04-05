@@ -1,0 +1,35 @@
+import numpy as np
+import scipy.stats as st
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def g(x):
+  return 7+x**2
+
+xu = st.uniform.rvs(0,3,size=10000)
+xe = st.expon.rvs(scale=1,size=10000)
+xn = st.norm.rvs(loc=0, scale=1, size=10000)
+
+gxu = g(xu); gxe = g(xe); gxn = g(xn)
+plt.rcParams['figure.figsize'] = [15, 5]
+plt.subplot(131)
+plt.title('Uniform')
+plt.hist(xu,bins=50,range=(0,3),density=True) #blue histogram
+plt.plot([-0.2,0,0,3,3,3.2],[0,0,1.0/3,1.0/3,0,0],lw=2) #orange line. uniform[0,3] density
+plt.hist(gxu,bins=50,density=True) #green histogram
+
+plt.subplot(132)
+plt.title('Exponential')
+plt.hist(xe,bins=50,range=(0,10),density=True) #blue histogram
+xp = np.linspace(0,10,50)
+plt.plot(xp,st.expon.pdf(xp,scale=1),lw=2) #orange line, exp(\lambda) density
+plt.hist(gxe,bins=50,density=True) #green histogram
+
+plt.subplot(133)
+plt.title('Normal')
+plt.hist(xn,bins=50,range=(-5,5),density=True) #blue histogram
+xp = np.linspace(-5,5,50)
+plt.plot(xp,st.norm.pdf(xp,loc=0,scale=1),lw=2) #orange line, normal pdf
+plt.hist(gxn,bins=50,density=True) #green histogram
+plt.tight_layout()
+plt.show()
